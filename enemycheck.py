@@ -1,55 +1,73 @@
 import cv2
 import numpy as np
 from ultralytics import YOLO
-import mss
+import bettercam
+import time
+import torch
 
+# Verify GPU setup
+print(f"PyTorch version: {torch.__version__}")
+print(f"CUDA available: {torch.cuda.is_available()}")
+if torch.cuda.is_available():
+    print(f"GPU device: {torch.cuda.get_device_name(0)}")
 
+# Load model
 model = YOLO("valorant.pt")
 
-class_names = ['enemyBody', 'enemyHead']
+# Move model to GPU with half-precision for better performance
+if torch.cuda.is_available():
+    model.to("cuda")
+    # Enable half-precision if your GPU supports it (faster inference)
+    model.half()  
+    print("Using GPU for inference with half-precision.")
+else:
+    print("Using CPU for inference.")
 
+# Setup capture
+region_width, region_height = 320, 180
+screen_w, screen_h = 1920, 1080
+left = screen_w // 2 - region_width // 2
+top = screen_h // 2 - region_height // 2
 
-screen_width, screen_height = 1920, 1080
-
-box_width, box_height = 640, 360
-center_x, center_y = screen_width // 2, screen_height // 2
-left = center_x - box_width // 2
-top = center_y - box_height // 2
-
-monitor = {
-    "top": top,
-    "left": left,
-    "width": box_width,
-    "height": box_height
-}
-
-
-sct = mss.mss()
+camera = bettercam.create(output_color='BGR')
+prev_time = time.time()
 
 while True:
+    frame = camera.grab(region=(left, top, left + region_width, top + region_height))
+    if frame is None:
+        continue
 
-    screenshot = np.array(sct.grab(monitor))
-    frame = cv2.cvtColor(screenshot, cv2.COLOR_BGRA2BGR)
+    frame = np.array(frame)
+    
+    # Run model with GPU optimizations
+    with torch.no_grad():  # Disable gradient calculation for inference
+        results = model.predict(
+            frame, 
+            conf=0.4, 
+            verbose=False,
+            device='cuda' if torch.cuda.is_available() else 'cpu',  # Explicitly set device
+            half=True if torch.cuda.is_available() else False  # Use half-precision if GPU
+        )
 
-    results = model.predict(frame, conf=0.4, verbose=False)
-
+    # Visualization (keep this on CPU)
     for r in results:
         for box in r.boxes:
             cls_id = int(box.cls[0])
-            label = class_names[cls_id]
-            conf = float(box.conf[0])
+            label = model.names[cls_id]
+            if label != "enemyHead":
+                continue
             x1, y1, x2, y2 = map(int, box.xyxy[0])
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
 
-            color = (0, 0, 255) if label == 'enemyHead' else (0, 255, 0)
+    # FPS counter
+    curr_time = time.time()
+    fps = 1.0 / (curr_time - prev_time)
+    prev_time = curr_time
+    cv2.putText(frame, f"FPS: {fps:.2f}", (10, 25), cv2.FONT_HERSHEY_SIMPLEX,
+                0.8, (0, 255, 255), 2)
 
-            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-            cv2.putText(frame, f"{label} {conf:.2f}", (x1, y1 - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
-
-   
-    cv2.imshow("Centered Detection Box", frame)
-
-    if cv2.waitKey(1) & 0xFF == ord("q"):
+    cv2.imshow("Detection", frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 cv2.destroyAllWindows()
