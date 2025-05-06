@@ -21,7 +21,7 @@ else:
     print("Using CPU")
 
 # Define enemy classes
-class_names = ['enemyBody', 'enemyHead']
+class_names = ['enemy', 'enemy_head']
 
 # Shoot function
 def keyshoot():
@@ -96,7 +96,7 @@ with mss() as sct:
                 cls = int(box.cls[0])
                 label = model.names[cls]
 
-                if label == "enemyHead":
+                if label == "enemy_head":
                     x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
 
                     box_center_x = (x1 + x2) / 2

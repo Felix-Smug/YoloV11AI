@@ -20,7 +20,7 @@ if torch.cuda.is_available():
 else:
     print("Using CPU")
 
-class_names = ['enemyBody', 'enemyHead']
+class_names = ['enemy', 'enemy_Head']
 
 # set shoot button to K
 def keyshoot():
@@ -64,7 +64,7 @@ while not keyboard.is_pressed('p'):
             cls = int(box.cls[0])
             label = model.names[cls]
 
-            if label == "enemyHead":
+            if label == "enemy_Head":
                 x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
 
                 # check if the center of the box is near crosshair

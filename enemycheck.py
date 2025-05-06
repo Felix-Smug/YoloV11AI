@@ -54,7 +54,7 @@ while True:
         for box in r.boxes:
             cls_id = int(box.cls[0])
             label = model.names[cls_id]
-            if label != "enemyHead":
+            if label != "enemy_Head":
                 continue
             x1, y1, x2, y2 = map(int, box.xyxy[0])
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
