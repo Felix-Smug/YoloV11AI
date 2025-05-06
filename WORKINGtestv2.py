@@ -9,7 +9,6 @@ import math
 import torch
 import bettercam
 
-# Load TensorRT-exported model
 model = YOLO("valorant.engine")
 
 if torch.cuda.is_available():
@@ -76,7 +75,7 @@ while not keyboard.is_pressed('p'):
                 box_center_y = (y1 + y2) / 2
                 distance = math.hypot(box_center_x - region_size / 2, box_center_y - region_size / 2)
 
-                if distance < 10:
+                if distance < 9:
                     print("enemyHead detected")
                     keyshoot()
                     time.sleep(0.2)
