@@ -40,6 +40,7 @@ region_top = screen_h // 2 - region_size // 2
 
 print("Press 'P' to Stop TriggerBot")
 
+
 while not keyboard.is_pressed('p'):
 
     frame = camera.grab(region=(region_left, region_top, region_left + region_size, region_top + region_size))
