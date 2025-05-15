@@ -9,22 +9,27 @@ import math
 import torch
 import bettercam
 
+
 model = YOLO("valorant.engine")
 
 if torch.cuda.is_available():
     print(f"Using GPU with TensorRT: {torch.cuda.get_device_name(0)}")
 else:
-    print("WARNING: CUDA not available. TensorRT will not work properly.")
+    print("CUDA not available")
 
 class_names = ['enemy', 'enemy_head']
+
 
 def keyshoot():
     win32api.keybd_event(0x4B, 0, 0, 0)
     win32api.keybd_event(0x4B, 0, win32con.KEYEVENTF_KEYUP, 0)
 
+
+# def keyshoot():
+#     keyboard.press('k')
+
 camera = bettercam.create(output_color='BGR')
 
-# Define screen region
 screen_w, screen_h = pyautogui.size()
 region_size = 150
 region_left = screen_w // 2 - region_size // 2
@@ -33,16 +38,15 @@ region_top = screen_h // 2 - region_size // 2
 print("Press 'C' to toggle TriggerBot ON/OFF")
 print("Press 'P' to Stop TriggerBot")
 
-# TriggerBot toggle
+# toggle
 triggerbot_enabled = True
 last_toggle_time = 0
 
-# FPS tracker
 frame_count = 0
 start_time = time.time()
 
 while not keyboard.is_pressed('p'):
-    # Handle 'C' key toggle (with debounce to avoid rapid switching)
+    
     if keyboard.is_pressed('c') and time.time() - last_toggle_time > 0.5:
         triggerbot_enabled = not triggerbot_enabled
         status = "ENABLED" if triggerbot_enabled else "DISABLED"
@@ -55,15 +59,15 @@ while not keyboard.is_pressed('p'):
 
     frame_np = np.array(frame)
 
-    # Predict using TensorRT engine (device=0 for CUDA)
+    
     results = model.predict(
         source=frame_np,
-        conf=0.5,
+        conf=0.35,
         verbose=False,
         device=0
     )
 
-    # Only process detections if triggerbot is enabled
+
     if triggerbot_enabled and results and results[0].boxes is not None:
         for box in results[0].boxes:
             cls = int(box.cls[0])
@@ -81,7 +85,6 @@ while not keyboard.is_pressed('p'):
                     time.sleep(0.2)
                     break
 
-    # FPS print
     frame_count += 1
     if frame_count >= 60:
         end_time = time.time()
