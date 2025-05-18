@@ -12,7 +12,7 @@ if torch.cuda.is_available():
     print(f"GPU device: {torch.cuda.get_device_name(0)}")
 
 # Load model
-model = YOLO("valorant.pt")
+model = YOLO("ow2.pt")
 
 # Move model to GPU with half-precision for better performance
 if torch.cuda.is_available():
@@ -54,7 +54,7 @@ while True:
         for box in r.boxes:
             cls_id = int(box.cls[0])
             label = model.names[cls_id]
-            if label != "enemy_Head":
+            if label != "EnemyHead":
                 continue
             x1, y1, x2, y2 = map(int, box.xyxy[0])
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
