@@ -24,7 +24,7 @@ else:
     print("Using CPU for inference.")
 
 # Setup capture
-region_width, region_height = 320, 180
+region_width, region_height = 1920, 1080
 screen_w, screen_h = 1920, 1080
 left = screen_w // 2 - region_width // 2
 top = screen_h // 2 - region_height // 2

@@ -24,9 +24,6 @@ def click():
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
 
 
-# def keyshoot():
-#     keyboard.press('k')
-
 camera = bettercam.create(output_color='BGR')
 
 screen_w, screen_h = pyautogui.size()
