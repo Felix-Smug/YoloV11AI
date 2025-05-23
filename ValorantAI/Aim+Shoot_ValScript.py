@@ -9,7 +9,7 @@ import torch
 import bettercam
 import serial
 
-model = YOLO("C:/Users/Smugg/Documents/Github Repos/YoloV11ValorantAI/ValorantAI/valorant.engine")
+model = YOLO("C:/Users/Smugg/Documents/Github Repos/YoloV11AI/ValorantAI/valorant.engine")
 
 arduino = serial.Serial('COM5', 9600, timeout=1)
 
