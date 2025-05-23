@@ -74,14 +74,16 @@ while not keyboard.is_pressed('p'):
                 dx = box_center_x - region_size / 2
                 dy = box_center_y - region_size / 2
 
-                # Dampen movement like OW aim assist
-                dx *= 0.6 if abs(dx) > 20 else 0.8
-                dy *= 0.6 if abs(dy) > 20 else 0.8
-
-                if abs(dx) > 1 or abs(dy) > 1:  # Skip very small adjustments
-                    send_mouse_move(dx, dy)
-                    print(f"Sent to Arduino: dx={dx:.1f}, dy={dy:.1f}")
-                break
+                if abs(dx) > 20:
+                    dx *= 0.6
+                else:
+                    dx *= 0.8
+                if abs(dy) > 20:
+                    dy *= 0.6
+                else:
+                    dy *= 0.8
+                
+                send_mouse_move(dx, dy)
 
     frame_count += 1
     if frame_count >= 60:

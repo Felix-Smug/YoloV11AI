@@ -17,15 +17,14 @@ model = YOLO("ow2.pt")
 # Move model to GPU with half-precision for better performance
 if torch.cuda.is_available():
     model.to("cuda")
-    # Enable half-precision if your GPU supports it (faster inference)
     model.half()  
     print("Using GPU for inference with half-precision.")
 else:
     print("Using CPU for inference.")
 
-# Setup capture
-region_width, region_height = 1920, 1080
-screen_w, screen_h = 1920, 1080
+# Set capture region to 320x320 around screen center
+region_width, region_height = 320, 320
+screen_w, screen_h = 1920, 1080  # Adjust if your screen is different
 left = screen_w // 2 - region_width // 2
 top = screen_h // 2 - region_height // 2
 
@@ -39,17 +38,15 @@ while True:
 
     frame = np.array(frame)
     
-    # Run model with GPU optimizations
-    with torch.no_grad():  # Disable gradient calculation for inference
+    with torch.no_grad():
         results = model.predict(
-            frame, 
-            conf=0.4, 
+            frame,
+            conf=0.4,
             verbose=False,
-            device='cuda' if torch.cuda.is_available() else 'cpu',  # Explicitly set device
-            half=True if torch.cuda.is_available() else False  # Use half-precision if GPU
+            device='cuda' if torch.cuda.is_available() else 'cpu',
+            half=True if torch.cuda.is_available() else False
         )
 
-    # Visualization (keep this on CPU)
     for r in results:
         for box in r.boxes:
             cls_id = int(box.cls[0])
@@ -59,7 +56,6 @@ while True:
             x1, y1, x2, y2 = map(int, box.xyxy[0])
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
 
-    # FPS counter
     curr_time = time.time()
     fps = 1.0 / (curr_time - prev_time)
     prev_time = curr_time

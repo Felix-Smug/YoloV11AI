@@ -41,6 +41,9 @@ def send_mouse_move(dx, dy):
     command = f"MOVE {dx} {dy}\n"
     arduino.write(command.encode())
 
+def send_fire():
+    arduino.write(b"FIRE\n")
+
 while not keyboard.is_pressed('p'):
     if keyboard.is_pressed('c') and time.time() - last_toggle_time > 0.5:
         aim_assist_enabled = not aim_assist_enabled
@@ -74,14 +77,20 @@ while not keyboard.is_pressed('p'):
                 dx = box_center_x - region_size / 2
                 dy = box_center_y - region_size / 2
 
-                # Dampen movement like OW aim assist
-                dx *= 0.6 if abs(dx) > 20 else 0.8
-                dy *= 0.6 if abs(dy) > 20 else 0.8
+                if abs(dx) > 20:
+                    dx *= 0.6
+                else:
+                    dx *= 0.8
+                if abs(dy) > 20:
+                    dy *= 0.6
+                else:
+                    dy *= 0.8
+                
+                send_mouse_move(dx, dy)
 
-                if abs(dx) > 1 or abs(dy) > 1:  # Skip very small adjustments
-                    send_mouse_move(dx, dy)
-                    print(f"Sent to Arduino: dx={dx:.1f}, dy={dy:.1f}")
-                break
+                if abs(dx) < 3 and abs(dy) < 3:
+                    send_fire()
+                    time.sleep(0.15)
 
     frame_count += 1
     if frame_count >= 60:
