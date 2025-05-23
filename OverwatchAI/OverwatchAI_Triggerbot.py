@@ -9,7 +9,7 @@ import math
 import torch
 import bettercam
 
-model = YOLO("ow2.engine")
+model = YOLO("C:/Users/Smugg/Documents/Github Repos/YoloV11ValorantAI/OverwatchAI/ow2.engine")
 
 if torch.cuda.is_available():
     print(f"Using GPU with TensorRT: {torch.cuda.get_device_name(0)}")
