@@ -5,16 +5,13 @@ import bettercam
 import time
 import torch
 
-# Verify GPU setup
 print(f"PyTorch version: {torch.__version__}")
 print(f"CUDA available: {torch.cuda.is_available()}")
 if torch.cuda.is_available():
     print(f"GPU device: {torch.cuda.get_device_name(0)}")
 
-# Load model
-model = YOLO("ow2.pt")
+model = YOLO("valorant.pt")
 
-# Move model to GPU with half-precision for better performance
 if torch.cuda.is_available():
     model.to("cuda")
     model.half()  
@@ -22,9 +19,9 @@ if torch.cuda.is_available():
 else:
     print("Using CPU for inference.")
 
-# Set capture region to 320x320 around screen center
+
 region_width, region_height = 320, 320
-screen_w, screen_h = 1920, 1080  # Adjust if your screen is different
+screen_w, screen_h = 1920, 1080  
 left = screen_w // 2 - region_width // 2
 top = screen_h // 2 - region_height // 2
 
@@ -51,7 +48,7 @@ while True:
         for box in r.boxes:
             cls_id = int(box.cls[0])
             label = model.names[cls_id]
-            if label != "EnemyHead":
+            if label != "enemy_head":
                 continue
             x1, y1, x2, y2 = map(int, box.xyxy[0])
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
