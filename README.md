@@ -4,7 +4,7 @@ Overwatch AI:
 - doesn't require an arduino
 
   Video Clip In Use:
-  [https://github.com/Felix-Smug/YoloV11AI/issues/1#issue-3088234411](https://github.com/Felix-Smug/YoloV11AI/issues/1#issue-3088234411)
+  https://github.com/user-attachments/assets/0d5e89f7-fb63-4822-a625-e34b50f7a570
 
 
 
