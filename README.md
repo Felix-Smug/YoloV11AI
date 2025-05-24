@@ -14,4 +14,10 @@ Valorant AI:
 - 90% accurate
 - requires an arduino
 
+  Video Clip In Use:
+
+https://github.com/user-attachments/assets/c8dfb489-6cee-43c1-b2db-ba5a790d25f7
+
+
+
 
