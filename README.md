@@ -1,5 +1,7 @@
 # YoloV11AI
 
+Only For Educational Purposes!!! 
+
 Overwatch AI:
 - was trained with red color enemy dataset
 - still needs tuning 70% accurate (probably need to retrain the model with better images)
