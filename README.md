@@ -1,4 +1,4 @@
-# YoloV11AI
+# YoloV11AI External AI Object Recognition
 
 Only For Educational Purposes!!! 
 
