@@ -57,7 +57,7 @@ while not keyboard.is_pressed('p'):
 
     results = model.predict(
         source=frame_np,
-        conf=0.35,
+        conf=0.45,
         verbose=False,
         device=0
     )

@@ -84,13 +84,13 @@ while not keyboard.is_pressed('p'):
             dy = target_box[1] - region_size / 2
 
             if abs(dx) > 20:
-                dx *= 1.5
+                dx *= 1.0
             else:
-                dx *= 1.5
+                dx *= 1.2
             if abs(dy) > 20:
-                dy *= 1.5
+                dy *= 1.0
             else:
-                dy *= 1.5
+                dy *= 1.2
             win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, int(dx), int(dy), 0, 0)
 
 
