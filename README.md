@@ -2,6 +2,8 @@
 
 Only For Educational Purposes!!! 
 
+(Use CUDA 12.8.1 and TensorRT-10.9.0.43)
+
 Overwatch AI:
 - was trained with red color enemy dataset
 - still needs tuning 70% accurate (probably need to retrain the model with better images)
