@@ -1,4 +1,8 @@
-# YoloV11AI
+# YoloV11AI External AI Object Recognition
+
+Only For Educational Purposes!!! 
+
+(Use CUDA 12.8.1 and TensorRT-10.9.0.43)
 
 Overwatch AI:
 - was trained with red color enemy dataset
