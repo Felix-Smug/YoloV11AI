@@ -6,7 +6,7 @@ Only For Educational Purposes!!!
 
 Overwatch AI:
 - was trained with red color enemy dataset
-- still needs tuning 70% accurate (probably need to retrain the model with better images)
+- still needs tuning 80% accurate (multiple models)
 - doesn't require an arduino
 
   Video Clip In Use:
@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/0d5e89f7-fb63-4822-a625-e34b50f7a570
 
 Valorant AI:
 - was trained with purple color enemy dataset
-- 90% accurate
+- 90% accurate (multiple models)
 - requires an arduino
 
   Video Clip In Use:
