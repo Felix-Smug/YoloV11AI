@@ -9,7 +9,7 @@ import math
 import torch
 import bettercam
 
-model = YOLO("C:/Users/Smugg/Documents/Github Repos/YoloV11AI/OverwatchAI/ow2.engine")
+model = YOLO("C:/Users/Smugg/Documents/Github Repos/YoloV11AI/OverwatchAI/ow2epoch60.engine")
 
 aim_assist_enabled = False
 last_aim_toggle_time = 0

@@ -10,7 +10,7 @@ print(f"CUDA available: {torch.cuda.is_available()}")
 if torch.cuda.is_available():
     print(f"GPU device: {torch.cuda.get_device_name(0)}")
 
-model = YOLO("best.pt")
+model = YOLO("my_model.pt")
 
 if torch.cuda.is_available():
     model.to("cuda")
@@ -48,7 +48,7 @@ while True:
         for box in r.boxes:
             cls_id = int(box.cls[0])
             label = model.names[cls_id]
-            if label != "Enemy":
+            if label != "EnemyHead":
                 continue
             x1, y1, x2, y2 = map(int, box.xyxy[0])
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
