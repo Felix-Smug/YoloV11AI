@@ -7,11 +7,11 @@ import pyautogui
 import math
 import torch
 import bettercam
-import serial
+import win32api
+import win32con
 
 model = YOLO("C:/Users/Smugg/Documents/Github Repos/YoloV11AI/OverwatchAI/ow2epoch60.engine")
 
-arduino = serial.Serial('COM5', 9600, timeout=1)
 
 if torch.cuda.is_available():
     print(f"Using GPU with TensorRT: {torch.cuda.get_device_name(0)}")
@@ -36,14 +36,10 @@ last_toggle_time = 0
 frame_count = 0
 start_time = time.time()
 
-def send_mouse_move(dx, dy):
-    dx = max(min(int(dx), 127), -127)
-    dy = max(min(int(dy), 127), -127)
-    command = f"MOVE {dx} {dy}\n"
-    arduino.write(command.encode())
 
-def send_fire():
-    arduino.write(b"FIRE\n")
+def click():
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0,0)
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
 
 while not keyboard.is_pressed('`'):
     
@@ -99,11 +95,11 @@ while not keyboard.is_pressed('`'):
             else:
                 dy *= 1.2
 
-            send_mouse_move(dx, dy)
+            win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, int(dx), int(dy), 0, 0)
 
             #remove these two lines for just aim assist
-            if abs(dx) < 3 and abs(dy) < 3:
-                send_fire()
+            #if abs(dx) < 3 and abs(dy) < 3:
+            #    click()
            
     frame_count += 1
     if frame_count >= 60:
