@@ -27,7 +27,7 @@ region_size = 130
 region_left = screen_w // 2 - region_size // 2
 region_top = screen_h // 2 - region_size // 2
 
-print("Press 'B' to toggle Aim Assist ON/OFF")
+print("Press 'C' to toggle Aim Assist ON/OFF")
 print("Press '`' to Stop")
 
 aim_assist_enabled = True
@@ -47,7 +47,7 @@ def send_fire():
 
 while not keyboard.is_pressed('`'):
     
-    if keyboard.is_pressed('b') and time.time() - last_toggle_time > 0.5:
+    if keyboard.is_pressed('c') and time.time() - last_toggle_time > 0.5:
         aim_assist_enabled = not aim_assist_enabled
         status = "ENABLED" if aim_assist_enabled else "DISABLED"
         print(f"Aim Assist {status}")
@@ -102,8 +102,8 @@ while not keyboard.is_pressed('`'):
             send_mouse_move(dx, dy)
 
             #remove these two lines for just aim assist
-            if abs(dx) < 3 and abs(dy) < 3:
-                send_fire()
+            #if abs(dx) < 3 and abs(dy) < 3:
+            #    send_fire()
            
     frame_count += 1
     if frame_count >= 60:
